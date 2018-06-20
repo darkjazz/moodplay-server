@@ -1,1 +1,1 @@
-web: ./fuseki-server --loc=./run/databases/mood/ --port=8080 /mood
+web: ./fuseki-server --loc=./run/databases/mood/ --port=$PORT /mood
