@@ -6,7 +6,7 @@ var front = require('./api/modules/front');
 
 var app = module.exports = express();
 
-var port = 7758; //process.env.PORT || 8080;
+var port = process.env.PORT || 8080;
 
 app.use(cors());
 
