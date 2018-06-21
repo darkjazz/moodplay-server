@@ -56,10 +56,10 @@
   <div>
     <p>
       <h1>Moodplay Server</h1>
-      This is Moodplay Server, a backend for the <a href="https://moodplay.github.io">Moodplay</a> -
+      This is Moodplay server, the backend for <a href="https://moodplay.github.io">Moodplay</a> -
       an online interactive music player
       <br><br>
-      The base URI for the API: <a href="http://moodplay-data.herokuapp.com">http://musiclynx-api.herokuapp.com</a>
+      The base URI for the API: <a href="http://moodplay-data.herokuapp.com">http://moodplay-data.herokuapp.com</a>
     </p>
     %CONTENT%
   </div>
