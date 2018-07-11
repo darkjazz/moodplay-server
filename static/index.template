@@ -35,7 +35,7 @@
     }
     /* #enddocregion toh */
     a, a:visited {
-      color: #4d6a79;
+      color: #039be5;
       -webkit-transition: color .4s ease;
       transition: color .4s ease;
       cursor: pointer;
@@ -44,7 +44,7 @@
     }
 
     a:hover{
-      color: #039be5;
+      color: #65c4f2;
     }
 
     span{
@@ -59,7 +59,7 @@
       This is Moodplay server, the backend for <a href="https://moodplay.github.io">Moodplay</a> -
       an online interactive music player
       <br><br>
-      The base URI for the API: <a href="http://moodplay-data.herokuapp.com">http://moodplay-data.herokuapp.com</a>
+      The base URI for the API: <a href="https://moodplay-data.herokuapp.com">https://moodplay-data.herokuapp.com</a>
     </p>
     %CONTENT%
   </div>

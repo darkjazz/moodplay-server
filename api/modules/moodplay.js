@@ -38,7 +38,7 @@ module.exports.get_track_metadata = function(filename, cb) {
   cb(get_track(filename));
 }
 
-jsonfile.readFile('./static/mood.json', function(err, obj) {
+jsonfile.readFile('./static/deezer_tracks.json', function(err, obj) {
   if (err) console.log(err);
   data = obj;
   console.log("Moodplay static data loaded!");
