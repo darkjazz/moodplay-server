@@ -14,4 +14,22 @@ module_mp.get('/get_track_metadata/:filename', function(req, res) {
   })
 });
 
+module_mp.get('/get_all_coordinates/', function(req, res) {
+  mp.get_all_coordinates(function(coordinates) {
+    res.send(coordinates);
+  })
+});
+
+module_mp.get('/get_artist_coordinates/', function(req, res) {
+  mp.get_artist_coordinates(function(coordinates) {
+    res.send(coordinates);
+  })
+});
+
+module_mp.get('/get_unique/', function(req, res) {
+  mp.get_unique(function(unique) {
+    res.send(unique);
+  })
+});
+
 module.exports = module_mp;
