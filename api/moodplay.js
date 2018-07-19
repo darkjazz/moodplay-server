@@ -47,7 +47,7 @@ module_mp.get('/get_artist_coordinates/', function(req, res) {
 });
 
 /*
-Get All Artist Coordinates: <span>/get_unique/</span>
+Get Unique Coordinates: <span>/get_unique/</span>
 Example: http://moodplay-data.herokuapp.com/moodplay/get_unique/
 */
 module_mp.get('/get_unique/', function(req, res) {
