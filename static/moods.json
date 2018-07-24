@@ -1,0 +1,197 @@
+[
+  {
+    "label": "pathetic",
+    "valence": -0.76,
+    "arousal": -0.46
+  },
+  {
+    "label": "dark",
+    "valence": -0.76,
+    "arousal": -0.24
+  },
+  {
+    "label": "apocalyptic",
+    "valence": -0.76,
+    "arousal": -0.02
+  },
+  {
+    "label": "harsh",
+    "valence": -0.92,
+    "arousal": 0.26
+  },
+  {
+    "label": "terror",
+    "valence": -0.96,
+    "arousal": 0.12
+  },
+  {
+    "label": "depressive",
+    "valence": -0.58,
+    "arousal": -0.6
+  },
+  {
+    "label": "cold",
+    "valence": -0.36,
+    "arousal": -0.2
+  },
+  {
+    "label": "scary",
+    "valence": -0.56,
+    "arousal": 0.38
+  },
+  {
+    "label": "melancholy",
+    "valence": -0.24,
+    "arousal": -0.68
+  },
+  {
+    "label": "sad",
+    "valence": -0.18,
+    "arousal": -0.82
+  },
+  {
+    "label": "deep",
+    "valence": -0.08,
+    "arousal": -0.52
+  },
+  {
+    "label": "haunting",
+    "valence": -0.3,
+    "arousal": -0.48
+  },
+  {
+    "label": "neutral",
+    "valence": 0,
+    "arousal": 0
+  },
+  {
+    "label": "angry",
+    "valence": -0.28,
+    "arousal": 0.56
+  },
+  {
+    "label": "brutal",
+    "valence": -0.48,
+    "arousal": 0.8
+  },
+  {
+    "label": "slow",
+    "valence": 0.08,
+    "arousal": -0.8
+  },
+  {
+    "label": "dreamy",
+    "valence": 0,
+    "arousal": -0.68
+  },
+  {
+    "label": "epic",
+    "valence": 0.08,
+    "arousal": -0.34
+  },
+  {
+    "label": "nostalgia",
+    "valence": 0.2,
+    "arousal": -0.54
+  },
+  {
+    "label": "pure",
+    "valence": 0.16,
+    "arousal": -0.24
+  },
+  {
+    "label": "free",
+    "valence": 0.2,
+    "arousal": -0.14
+  },
+  {
+    "label": "sexy",
+    "valence": 0.2,
+    "arousal": 0.14
+  },
+  {
+    "label": "quirky",
+    "valence": 0.26,
+    "arousal": 0.54
+  },
+  {
+    "label": "chill",
+    "valence": 0.42,
+    "arousal": -1
+  },
+  {
+    "label": "mellow",
+    "valence": 0.36,
+    "arousal": -0.82
+  },
+  {
+    "label": "soft",
+    "valence": 0.48,
+    "arousal": -0.64
+  },
+  {
+    "label": "smooth",
+    "valence": 0.64,
+    "arousal": -0.58
+  },
+  {
+    "label": "sweet",
+    "valence": 0.5,
+    "arousal": -0.28
+  },
+  {
+    "label": "pleasure",
+    "valence": 0.6,
+    "arousal": -0.08
+  },
+  {
+    "label": "party",
+    "valence": 0.68,
+    "arousal": 0.7
+  },
+  {
+    "label": "energetic",
+    "valence": 0.46,
+    "arousal": 0.3
+  },
+  {
+    "label": "fun",
+    "valence": 0.66,
+    "arousal": 0.36
+  },
+  {
+    "label": "humour",
+    "valence": 0.54,
+    "arousal": 0.58
+  },
+  {
+    "label": "laid back",
+    "valence": 0.72,
+    "arousal": -0.72
+  },
+  {
+    "label": "easy",
+    "valence": 0.9,
+    "arousal": -0.57
+  },
+  {
+    "label": "soulful",
+    "valence": 0.88,
+    "arousal": -0.43
+  },
+  {
+    "label": "uplifting",
+    "valence": 0.8,
+    "arousal": -0.12
+  },
+  {
+    "label": "happy",
+    "valence": 0.84,
+    "arousal": 0.04
+  },
+  {
+    "label": "upbeat",
+    "valence": 0.82,
+    "arousal": 0.2
+  }
+]

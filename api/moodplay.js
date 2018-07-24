@@ -56,4 +56,10 @@ module_mp.get('/get_unique/', function(req, res) {
   })
 });
 
+module_mp.get('/get_moods/', function(req, res) {
+  mp.get_moods(function(moods) {
+    res.send(moods);
+  })
+});
+
 module.exports = module_mp;

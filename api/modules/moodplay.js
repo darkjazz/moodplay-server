@@ -5,6 +5,8 @@ var data = {};
 var coords = [];
 var tree;
 
+var moods;
+
 var linlin = function(number, inMin, inMax, outMin, outMax) {
   if (number <= inMin) return outMin;
   if (number >= inMax) return outMax;
@@ -100,6 +102,10 @@ module.exports.get_all_coordinates = function(cb) {
   cb(coords);
 }
 
+module.exports.get_moods = function(cb) {
+  cb(moods);
+}
+
 module.exports.get_unique = function(cb) {
   cb(get_unique())
 }
@@ -119,4 +125,10 @@ jsonfile.readFile('./static/deezer_tracks.json', function(err, obj) {
   });
   tree = kdt.createKdTree(coords, distance, ['valence', 'arousal']);
   console.log("Created coordinates tree!");
+});
+
+jsonfile.readFile('./static/moods.json', function(err, obj) {
+  if (err) console.log(err);
+  moods = obj;
+  console.log("Moodplay moods loaded!");
 });
