@@ -56,6 +56,10 @@ module_mp.get('/get_unique/', function(req, res) {
   })
 });
 
+/*
+Get Mood Coordinates: <span>/get_moods/</span>
+Example: http://moodplay-data.herokuapp.com/moodplay/get_moods/
+*/
 module_mp.get('/get_moods/', function(req, res) {
   mp.get_moods(function(moods) {
     res.send(moods);
