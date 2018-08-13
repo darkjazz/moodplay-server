@@ -1,4 +1,4 @@
-## MusicLynx server
+## Moodplay server
 
 This is the server component of Moodplay (https://github.com/darkjazz/moodplay)
 
