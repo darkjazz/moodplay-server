@@ -92,7 +92,7 @@ var get_track_features = function(id) {
   id.split("&").forEach(_id => {
     if (_id in features) tracks[_id] = features[_id];
   });
-  if (Object.keys(tracks).length === 0 && obj.constructor === Object)
+  if (Object.keys(tracks).length === 0 && tracks.constructor === Object)
     tracks["error"] = "track id not found!";
   return tracks;
 }
