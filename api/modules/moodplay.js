@@ -6,6 +6,7 @@ var coords = [];
 var tree;
 
 var moods;
+var features;
 
 var linlin = function(number, inMin, inMax, outMin, outMax) {
   if (number <= inMin) return outMin;
@@ -98,6 +99,11 @@ module.exports.get_track_metadata = function(filename, cb) {
   cb(get_track(filename));
 }
 
+module.exports.get_track_features = function(id, cb) {
+  if (!(id in features)) cb({ "error": "track id not found!" });
+  else cb(features[id])
+}
+
 module.exports.get_all_coordinates = function(cb) {
   cb(coords);
 }
@@ -131,4 +137,10 @@ jsonfile.readFile('./static/moods.json', function(err, obj) {
   if (err) console.log(err);
   moods = obj;
   console.log("Moodplay moods loaded!");
+});
+
+jsonfile.readFile('./static/features.json', function(err, obj) {
+  if (err) console.log(err);
+  features = obj;
+  console.log("Moodplay features loaded!");
 });

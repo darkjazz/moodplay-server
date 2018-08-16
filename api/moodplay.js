@@ -27,6 +27,16 @@ module_mp.get('/get_track_metadata/:filename', function(req, res) {
 });
 
 /*
+Get Track Features: <span>/get_track_features/:id</span>
+Example: http://moodplay-data.herokuapp.com/moodplay/get_track_features/55743cb9-46c0-4d45-96f4-f80ed9131450
+*/
+module_mp.get('/get_track_features/:id', function(req, res) {
+  mp.get_track_features(req.params.id, function(features) {
+    res.send(features);
+  })
+});
+
+/*
 Get All Track Coordinates: <span>/get_all_coordinates/</span>
 Example: http://moodplay-data.herokuapp.com/moodplay/get_all_coordinates/
 */
