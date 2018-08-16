@@ -87,6 +87,16 @@ var get_artist_coordinates = function() {
   return artists_array;
 }
 
+var get_track_features = function(id) {
+  tracks = {}
+  id.split("&").forEach(_id => {
+    if (_id in features) tracks[_id] = features[_id];
+  });
+  if (Object.keys(tracks).length === 0 && obj.constructor === Object)
+    tracks["error"] = "track id not found!";
+  return tracks;
+}
+
 module.exports.get_artist_coordinates = function(cb) {
  cb(get_artist_coordinates())
 }
@@ -100,8 +110,7 @@ module.exports.get_track_metadata = function(filename, cb) {
 }
 
 module.exports.get_track_features = function(id, cb) {
-  if (!(id in features)) cb({ "error": "track id not found!" });
-  else cb(features[id])
+  cb(get_track_features(id))
 }
 
 module.exports.get_all_coordinates = function(cb) {
