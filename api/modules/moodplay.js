@@ -134,7 +134,7 @@ jsonfile.readFile('./static/deezer_tracks.json', function(err, obj) {
     var track = data[filename];
     var valence = linlin(track.coords.valence, limits.min_valence, limits.max_valence, -1.0, 1.0);
     var arousal = linlin(track.coords.arousal, limits.min_arousal, limits.max_arousal, -1.0, 1.0);
-    var coord = { valence: valence, arousal: arousal, deezer_id: track.deezer_id,
+    var coord = { valence: valence, arousal: arousal, uri: track.preview,
       filename: track.filename, artist: track.artist.name, title: track.song_title };
     coords.push(coord);
   });
