@@ -115,8 +115,10 @@ module.exports.get_track_features_by_id = function(id, cb) {
 }
 
 module.exports.get_track_features_by_uri = function(uri, cb) {
-  var id = urimap[uri.split("/").pop().split(".")[0]];
-  cb(get_track_features(id))
+  var urikey = uri.split("/").pop().split(".")[0];
+  console.log(urikey);
+  var id = urimap[urikey];
+  cb(get_track_features(id)[id])
 }
 
 module.exports.get_all_coordinates = function(cb) {
