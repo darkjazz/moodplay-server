@@ -27,7 +27,7 @@ module_mp.get('/get_track_metadata/:filename', function(req, res) {
 });
 
 /*
-Get Track Features: <span>/get_track_features/:id</span>
+Get Track Features: <span>/get_track_features_by_id/:id</span>
 Example: https://moodplay-data.herokuapp.com/moodplay/get_track_features_by_id/55743cb9-46c0-4d45-96f4-f80ed9131450&14240d1b-1202-4535-b19d-bde56062654d
 */
 module_mp.get('/get_track_features_by_id/:id', function(req, res) {
@@ -37,7 +37,7 @@ module_mp.get('/get_track_features_by_id/:id', function(req, res) {
 });
 
 /*
-Get Track Features: <span>/get_track_features/:id</span>
+Get Track Features: <span>/get_track_features_by_uri/:id</span>
 Example: https://moodplay-data.herokuapp.com/moodplay/get_track_features_by_uri/aHR0cHM6Ly9jZG5zLXByZXZpZXctNi5kemNkbi5uZXQvc3RyZWFtL2MtNjc2MTc3OTcxYjEyNWNmYjRkYjc0YzU3ZmJjMWJhYWYtNi5tcDM=
 */
 module_mp.get('/get_track_features_by_uri/:uri', function(req, res) {
