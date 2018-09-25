@@ -4,6 +4,7 @@ var kdt = require('kd.tree')
 var data = {};
 var coords = [];
 var tree;
+var urimap = {};
 
 var moods;
 var features;
@@ -109,7 +110,12 @@ module.exports.get_track_metadata = function(filename, cb) {
   cb(get_track(filename));
 }
 
-module.exports.get_track_features = function(id, cb) {
+module.exports.get_track_features_by_id = function(id, cb) {
+  cb(get_track_features(id))
+}
+
+module.exports.get_track_features_by_uri = function(uri, cb) {
+  var id = urimap[uri.split("/").pop().split(".")[0]];
   cb(get_track_features(id))
 }
 
@@ -137,6 +143,8 @@ jsonfile.readFile('./static/deezer_tracks.json', function(err, obj) {
     var coord = { valence: valence, arousal: arousal, uri: track.preview,
       filename: track.filename, artist: track.artist.name, title: track.song_title };
     coords.push(coord);
+    var preview_id = track.preview.split("/").pop().split(".")[0];
+    urimap[preview_id] = track._id;
   });
   tree = kdt.createKdTree(coords, distance, ['valence', 'arousal']);
   console.log("Created coordinates tree!");
