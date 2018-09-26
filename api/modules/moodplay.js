@@ -116,9 +116,9 @@ module.exports.get_track_features_by_id = function(id, cb) {
 
 module.exports.get_track_features_by_uri = function(uri, cb) {
   var urikey = uri.split("/").pop().split(".")[0];
-  console.log(urikey);
   var id = urimap[urikey];
-  cb(get_track_features(id)[id])
+  if (id) cb(get_track_features(id)[id])
+  cb({"error": "track id not found!"})
 }
 
 module.exports.get_all_coordinates = function(cb) {
