@@ -25,11 +25,11 @@ app.get('/', function (req, res) {
   res.send(front.serve_front())
 });
 
-setInterval(function() {
-    user.calculate_average_coordinates('global', function(coords) {
-      console.log(coords.avg_coords, coords.active_users.map(user => user.name))
-    })
-}, 1000);
+// setInterval(function() {
+//     user.calculate_average_coordinates('global', function(coords) {
+//       console.log(coords.avg_coords, coords.active_users.map(user => user.name))
+//     })
+// }, 10000);
 
 server.listen(port, function () {
   console.log('Moodplay server listening on port ' + port + '!')
