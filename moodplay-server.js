@@ -10,6 +10,7 @@ var user = require('./api/modules/user');
 var app = module.exports = express();
 var server = http.Server(app);
 var io = socket(server);
+user.setIo(io);
 
 var port = process.env.PORT || 8080;
 
@@ -33,12 +34,4 @@ app.get('/', function (req, res) {
 
 server.listen(port, function () {
   console.log('Moodplay server listening on port ' + port + '!')
-});
-
-io.on('connection', function(socket) {
-  socket.on("user_coordinates", function(coords) {
-    user.add_user_coordinates(coords.partyID, coords.id, coords.valence, coords.arousal, function(party) {
-      socket.emit("party_message", party)
-    })
-  })
 });

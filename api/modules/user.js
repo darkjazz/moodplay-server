@@ -9,6 +9,7 @@ const names = [
   "oshun", "ayao", "mamlambo", "olapa", "nambi", "manat", "nuha", "bagmasti", "saris",
   "nane", "nar", "huba", "wala", "bila", "dilga", "ekhi", "tanit"
 ];
+var io, ns;
 var bot_names = [];
 var bot_name;
 var parties = {
@@ -130,6 +131,17 @@ add_user('global', 'moodplay', bot_name);
 //   bot_name[i] = generate_name();
 //   add_user('global', 'moodplay', bot_name[i]);
 // });
+
+module.exports.setIo = function(_io) {
+  io = _io;
+  ns = io.of('global');
+  ns.on('connection', function(socket) {
+    socket.on("user_coordinates", function(coords) {
+      var party = add_user_coordinates(coords.partyID, coords.id, coords.valence, coords.arousal);
+      ns.emit("party_message", party);
+    })
+  });
+}
 
 module.exports.add_user_coordinates = function(party_id, user_id, valence, arousal, cb) {
   cb(add_user_coordinates(party_id, user_id, valence, arousal))
