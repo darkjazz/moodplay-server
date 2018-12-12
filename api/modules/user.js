@@ -15,7 +15,8 @@ const names = [
 var io, ns;
 var bot_names = [];
 var bot_name;
-var parties = { }
+var namespaces = { };
+var parties = { };
 parties[global_ns] = { id: global_ns, owner_id: global_id, uri: base_uri + global_ns, users: { } }
 
 var check_user = function(uaid) {
@@ -41,8 +42,24 @@ var add_party = function(user_id) {
     users: { }
   };
   party['users'][user_id] = parties[global_ns]['users'][user_id];
-  parties[id] = party
+  parties[id] = party;
+  create_namespace(id);
   return party;
+}
+
+var create_namespace = function(party_id) {
+  var private_ns = io.of(party_id);
+  namespaces[party_id] = private_ns;
+  private_ns.on('connection', function(socket) {
+    socket.on("user_coordinates", function(coords) {
+      var party = add_user_coordinates(coords.partyID, coords.id, coords.valence, coords.arousal);
+      private_ns.emit("party_message", party);
+    })
+  });
+  setInterval(function() {
+    var coords = calculate_average_coordinates(private_ns);
+    private_ns.emit("average_coordinates", coords);
+  }, coords_interval);
 }
 
 var add_user = function(party_id, uaid, name) {
