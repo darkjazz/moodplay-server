@@ -1,5 +1,6 @@
 var uuid = require('uuid/v4');
 var time = require('time');
+var mp = require('./moodplay');
 
 const base_uri = 'https://moodplay.github.io/party/';
 const time_limit = 11000;
@@ -135,7 +136,6 @@ var calculate_average_coordinates = function(party_id) {
   avg_coords.valence /= active_users.length;
   avg_coords.arousal /= active_users.length;
   avg_coords.dominance = 0;
-  // return { avg_coords: avg_coords, active_users: active_users };
   return avg_coords;
 }
 
@@ -171,6 +171,21 @@ var get_random_bot_id = function() {
   return bot_ids[index];
 }
 
+var emit_average_coordinates = function() {
+  var coords = calculate_average_coordinates(global_ns);
+  mp.get_nearest_track(coords.valence, coords.arousal, function(track) {
+    var track = {
+        valence: coords.valence,
+        arousal: coords.arousal,
+        uri: track.preview,
+        filename: track.filename,
+        artist: track.artist.name,
+        title: track.song_title
+    };
+    ns.emit("average_coordinates", track);
+  })
+}
+
 bot_ids = Array.from({length: num_bots}, () => uuid());
 bot_ids.forEach(id => add_bot(id));
 
@@ -180,14 +195,12 @@ module.exports.setIo = function(_io) {
   ns.on('connection', function(socket) {
     socket.on("user_coordinates", function(coords) {
       var party = add_user_coordinates(coords.partyID, coords.id, coords.valence, coords.arousal);
-      var coords = calculate_average_coordinates(global_ns);
       ns.emit("party_message", party);
-      ns.emit("average_coordinates", coords);
+      emit_average_coordinates();
     })
   });
   setInterval(function() {
-    var coords = calculate_average_coordinates(global_ns);
-    ns.emit("average_coordinates", coords);
+    emit_average_coordinates()
   }, coords_interval);
 }
 
