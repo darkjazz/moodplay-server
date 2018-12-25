@@ -2,18 +2,24 @@ var uuid = require('uuid/v4');
 var time = require('time');
 
 const base_uri = 'https://moodplay.github.io/party/';
-const time_limit = 10000;
+const time_limit = 11000;
 const coords_interval = 3000;
-const max_bots = 5;
+const num_bots = 5;
 const global_ns = 'global';
 const global_id = 'moodplay';
 const names = [
   "atete", "kianda", "emotan", "ayaba", "gleti", "mawu", "kaikara", "aja", "oba",
   "oshun", "ayao", "mamlambo", "olapa", "nambi", "manat", "nuha", "bagmasti", "saris",
-  "nane", "nar", "huba", "wala", "bila", "dilga", "ekhi", "tanit"
+  "nane", "nar", "huba", "wala", "bila", "dilga", "ekhi", "tanit", "kuanja", "nagadya",
+  "ashiakle", "mbokomu", "mulindwa", "bunzi", "velekete", "seta", "oxum", "ayizan",
+  "marinette", "prende", "manaf", "chaabou", "anahit", "bagvarti", "selardi", "kunapipi",
+  "anjea", "yhi", "karatgurk", "laima", "saule", "gabija", "milda", "lurbira", "ilazki",
+  "tinjis", "lamia", "moneiba", "chaxiraxi", "hariti", "kamini", "tara", "ekajati",
+  "cauri", "tummo", "shingwa", "iouga", "senuna", "verbeia", "epona", "andarta", "naria",
+  "sequana", "airmed", "ernmas", "beira", "murigen", "mazu"
 ];
 var io, ns;
-var bot_names = [];
+var bot_ids;
 var bot_name;
 var namespaces = { };
 var parties = { };
@@ -62,6 +68,20 @@ var create_namespace = function(party_id) {
   }, coords_interval);
 }
 
+var add_bot = function(id) {
+  var uri = parties[global_ns]["uri"] + '/' + id;
+  var bot = {
+    id: id,
+    uaid: global_id,
+    uri: uri,
+    name: generate_name(),
+    updated: Date.now(),
+    current_coords: { valence: 0, arousal: 0, date: "0" },
+    history: [ ]
+  };
+  parties[global_ns]['users'][id] = bot;
+}
+
 var add_user = function(party_id, uaid, name) {
   var user = check_user(uaid);
   if (user) { return user; }
@@ -99,14 +119,14 @@ var add_user_coordinates = function(party_id, user_id, valence, arousal) {
 var calculate_average_coordinates = function(party_id) {
   var avg_coords = { valence: 0, arousal: 0 };
   var active_users = get_active_users(party_id);
-  if (active_users.length == 0) {
-    var id = find_user_id_by_name(global_ns, bot_name);
+  if (count_human_users() == 0) {
+    var id = get_random_bot_id();
     add_user_coordinates(global_ns, id, (Math.random()-0.5)*2.0, (Math.random()-0.5)*2.0);
     active_users = get_active_users(party_id);
     ns.emit("party_message", parties[party_id]);
   }
-  Object.keys(parties[party_id].users).forEach(uaid => {
-    var user = parties[party_id].users[uaid];
+  Object.keys(parties[party_id].users).forEach(id => {
+    var user = parties[party_id].users[id];
     if (Date.now() - user.current_coords.date < time_limit) {
       avg_coords.valence += user.current_coords.valence;
       avg_coords.arousal += user.current_coords.arousal;
@@ -119,10 +139,21 @@ var calculate_average_coordinates = function(party_id) {
   return avg_coords;
 }
 
+var count_human_users = function() {
+  var users = [];
+  Object.keys(parties[global_ns].users).forEach(id => {
+    var user = parties[global_ns].users[id];
+    if (user["uaid"] != global_id && Date.now() - user.current_coords.date < time_limit) {
+      users.push(user);
+    }
+  });
+  return users.length;
+}
+
 var get_active_users = function(party_id) {
   var active_users = [];
-  Object.keys(parties[party_id].users).forEach(uaid => {
-    var user = parties[party_id].users[uaid];
+  Object.keys(parties[party_id].users).forEach(id => {
+    var user = parties[party_id].users[id];
     if (Date.now() - user.current_coords.date < time_limit) {
       active_users.push(user);
     }
@@ -130,29 +161,18 @@ var get_active_users = function(party_id) {
   return active_users;
 }
 
-var find_user_id_by_name = function(party_id, name) {
-  var id;
-  Object.keys(parties[party_id].users).forEach(user_id => {
-    var user = parties[party_id].users[user_id];
-    if (user.name == name) {
-      id = user.id;
-    }
-  });
-  return id;
-}
-
 var generate_name = function() {
-  var index = Math.floor((Math.random() * names.length)) - 1;
+  var index = Math.floor((Math.random() * names.length));
   return names[index];
 }
 
-bot_name = generate_name();
-add_user(global_ns, global_id, bot_name);
+var get_random_bot_id = function() {
+  var index = Math.floor((Math.random() * bot_ids.length));
+  return bot_ids[index];
+}
 
-// Array.from({length: max_bots}, (i) => {
-//   bot_name[i] = generate_name();
-//   add_user('global', 'moodplay', bot_name[i]);
-// });
+bot_ids = Array.from({length: num_bots}, () => uuid());
+bot_ids.forEach(id => add_bot(id));
 
 module.exports.setIo = function(_io) {
   io = _io;
@@ -160,7 +180,9 @@ module.exports.setIo = function(_io) {
   ns.on('connection', function(socket) {
     socket.on("user_coordinates", function(coords) {
       var party = add_user_coordinates(coords.partyID, coords.id, coords.valence, coords.arousal);
+      var coords = calculate_average_coordinates(global_ns);
       ns.emit("party_message", party);
+      ns.emit("average_coordinates", coords);
     })
   });
   setInterval(function() {
@@ -187,8 +209,4 @@ module.exports.calculate_average_coordinates = function(party_id, cb) {
 
 module.exports.get_active_users = function(party_id, cb) {
   cb(get_active_users(party_id))
-}
-
-module.exports.find_user_id_by_name = function(party_id, name, cb) {
-  cb(find_user_id_by_name(party_id, name))
 }
