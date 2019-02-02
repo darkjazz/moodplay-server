@@ -41,7 +41,8 @@ Get Track Features: <span>/get_track_features_by_uri/:id</span>
 Example: https://moodplay-data.herokuapp.com/moodplay/get_track_features_by_uri/aHR0cHM6Ly9jZG5zLXByZXZpZXctNi5kemNkbi5uZXQvc3RyZWFtL2MtNjc2MTc3OTcxYjEyNWNmYjRkYjc0YzU3ZmJjMWJhYWYtNi5tcDM=
 */
 module_mp.get('/get_track_features_by_uri/:uri', function(req, res) {
-  var b = new Buffer(req.params.uri, 'base64')
+  // var b = new Buffer(req.params.uri, 'base64')
+  var b = Buffer.from(req.params.uri, 'base64');
   var uri = b.toString();
   mp.get_track_features_by_uri(uri, function(features) {
     res.send(features);

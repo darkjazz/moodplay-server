@@ -1,6 +1,8 @@
 var jsonfile = require('jsonfile');
 var kdt = require('kd.tree')
 
+const MAX_NODES = 1;
+
 var data = {};
 var coords = [];
 var tree;
@@ -20,7 +22,13 @@ var distance = function(a, b){
 }
 
 var find_nearest = function(valence, arousal) {
-  var nearest = tree.nearest({ valence: valence, arousal: arousal }, 1);
+  var nearest = tree.nearest({ valence: valence, arousal: arousal }, MAX_NODES);
+  // nearest.forEach(list => {
+  //   var track = list[0];
+  //   console.log(distance(track, { valence: valence, arousal: arousal }), track.artist);
+  // });
+  // console.log("--");
+  console.log(nearest);
   return nearest[0][0].filename;
 }
 
@@ -118,7 +126,7 @@ module.exports.get_track_features_by_uri = function(uri, cb) {
   var urikey = uri.split("/").pop().split(".")[0];
   var id = urimap[urikey];
   if (id) cb(get_track_features(id)[id])
-  cb({"error": "track id not found!"})
+  else cb({"error": "track id not found!"})
 }
 
 module.exports.get_all_coordinates = function(cb) {

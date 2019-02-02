@@ -171,6 +171,8 @@ var get_random_bot_id = function() {
   return bot_ids[index];
 }
 
+// change this to consider more tracks than just the nearest
+// add track history, so the same tracks are not played for a period of time
 var emit_average_coordinates = function() {
   var coords = calculate_average_coordinates(global_ns);
   mp.get_nearest_track(coords.valence, coords.arousal, function(track) {
