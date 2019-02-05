@@ -23,12 +23,6 @@ var distance = function(a, b){
 
 var find_nearest = function(valence, arousal) {
   var nearest = tree.nearest({ valence: valence, arousal: arousal }, MAX_NODES);
-  // nearest.forEach(list => {
-  //   var track = list[0];
-  //   console.log(distance(track, { valence: valence, arousal: arousal }), track.artist);
-  // });
-  // console.log("--");
-  console.log(nearest);
   return nearest[0][0].filename;
 }
 
