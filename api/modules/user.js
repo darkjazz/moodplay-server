@@ -1,29 +1,20 @@
 var uuid = require('uuid/v4');
 var time = require('time');
 var mp = require('./moodplay');
+var names = require('./names').names;
 
 const base_uri = 'https://moodplay.github.io/party/';
-const vote_length = 11000;
-const cursor_interval = 3000;
+const vote_length = 13000;
+const message_interval = 5000;
 const num_bots = 10;
 const global_ns = 'global';
 const global_id = 'moodplay';
-const names = [
-  "atete", "kianda", "emotan", "ayaba", "gleti", "mawu", "kaikara", "aja", "oba",
-  "oshun", "ayao", "mamlambo", "olapa", "nambi", "manat", "nuha", "bagmasti", "saris",
-  "nane", "nar", "huba", "wala", "bila", "dilga", "ekhi", "tanit", "kuanja", "nagadya",
-  "ashiakle", "mbokomu", "mulindwa", "bunzi", "velekete", "seta", "oxum", "ayizan",
-  "marinette", "prende", "manaf", "chaabou", "anahit", "bagvarti", "selardi", "kunapipi",
-  "anjea", "yhi", "karatgurk", "laima", "saule", "gabija", "milda", "lurbira", "ilazki",
-  "tinjis", "lamia", "moneiba", "chaxiraxi", "hariti", "kamini", "tara", "ekajati",
-  "cauri", "tummo", "shingwa", "iouga", "senuna", "verbeia", "epona", "andarta", "naria",
-  "sequana", "airmed", "ernmas", "beira", "murigen", "mazu"
-];
 var io;
 var bot_ids;
 var bot_name;
 var namespaces = { };
 var parties = { };
+
 parties[global_ns] = { id: global_ns, owner_id: global_id, uri: base_uri + global_ns, users: { } }
 
 var check_user = function(uaid) {
@@ -60,13 +51,20 @@ var create_namespace = function(party_id) {
   ns.on('connection', function(socket) {
     socket.on("user_coordinates", function(coords) {
       var party = add_user_coordinates(coords.partyID, coords.id, coords.valence, coords.arousal);
-      ns.emit("party_message", party);
     })
   });
   setInterval(function() {
-    var coords = calculate_average_coordinates(party_id);
-    ns.emit("cursor_coordinates", coords);
-  }, cursor_interval);
+    var msg = calculate_average_coordinates(party_id);
+    mp.get_nearest_track(msg.coords.valence, msg.coords.arousal, function(track) {
+      msg.track = {
+          uri: track.preview,
+          filename: track.filename,
+          artist: track.artist.name,
+          title: track.song_title
+      };
+      ns.emit("party_message", msg);
+    });
+  }, message_interval);
 }
 
 var add_bot = function(id) {
@@ -137,7 +135,7 @@ var calculate_average_coordinates = function(party_id) {
   avg_coords.valence /= active_users.length;
   avg_coords.arousal /= active_users.length;
   avg_coords.dominance = 0;
-  return avg_coords;
+  return { coords: avg_coords, party: parties[party_id] };
 }
 
 var count_human_users = function() {
@@ -170,28 +168,6 @@ var generate_name = function() {
 var get_random_bot_id = function() {
   var index = Math.floor((Math.random() * bot_ids.length));
   return bot_ids[index];
-}
-
-// change this to consider more tracks than just the nearest
-// add track history, so the same tracks are not played for a period of time
-var emit_track_coordinates = function() {
-  var coords = calculate_average_coordinates(global_ns);
-  mp.get_nearest_track(coords.valence, coords.arousal, function(track) {
-    var track = {
-        valence: coords.valence,
-        arousal: coords.arousal,
-        uri: track.preview,
-        filename: track.filename,
-        artist: track.artist.name,
-        title: track.song_title
-    };
-    ns.emit("track_coordinates", track);
-  })
-}
-
-var emit_cursor_coordinates = function() {
-  var coords = calculate_average_coordinates(global_ns);
-  ns.emit("cursor_coordinates")
 }
 
 bot_ids = Array.from({length: num_bots}, () => uuid());
