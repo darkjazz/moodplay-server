@@ -4,9 +4,10 @@ var mp = require('./moodplay');
 var names = require('./names').names;
 
 const base_uri = 'https://moodplay.github.io/party/';
-const vote_length = 13000;
-const message_interval = 5000;
-const num_bots = 10;
+const vote_length = 17001;
+const message_interval = 11001;
+const bot_interval = 3001;
+const num_bots = 5;
 const global_ns = 'global';
 const global_id = 'moodplay';
 var io;
@@ -15,7 +16,13 @@ var bot_name;
 var namespaces = { };
 var parties = { };
 
-parties[global_ns] = { id: global_ns, owner_id: global_id, uri: base_uri + global_ns, users: { } }
+parties[global_ns] = {
+  id: global_ns,
+  owner_id: global_id,
+  uri: base_uri + global_ns,
+  update_rate: message_interval,
+  users: { }
+}
 
 var check_user = function(uaid) {
   var check;
@@ -36,6 +43,7 @@ var add_party = function(user_id) {
     id: id,
     uri: uri,
     owner_id: user_id,
+    update_rate: message_interval,
     updated: Date.now(),
     users: { }
   };
@@ -65,6 +73,13 @@ var create_namespace = function(party_id) {
       ns.emit("party_message", msg);
     });
   }, message_interval);
+  setInterval(function() {
+    if (count_human_users() == 0) {
+      var id = get_random_bot_id();
+      add_user_coordinates(global_ns, id, (Math.random()-0.5)*2.0, (Math.random()-0.5)*2.0);
+    }
+  }, bot_interval);
+
 }
 
 var add_bot = function(id) {
