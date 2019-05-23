@@ -21,6 +21,7 @@ parties[global_ns] = {
   owner_id: global_id,
   uri: base_uri + global_ns,
   update_rate: message_interval,
+  vote_length: vote_length,
   users: { }
 }
 
@@ -44,6 +45,7 @@ var add_party = function(user_id) {
     uri: uri,
     owner_id: user_id,
     update_rate: message_interval,
+    vote_length: vote_length,
     updated: Date.now(),
     users: { }
   };
