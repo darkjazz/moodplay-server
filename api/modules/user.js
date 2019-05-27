@@ -187,6 +187,13 @@ var get_random_bot_id = function() {
   return bot_ids[index];
 }
 
+var change_name = function(party_id, user_id, name) {
+  if (user_id in parties[party_id].users) {
+    parties[party_id].users[user_id].name = name;
+  }
+  return parties[party_id].users[user_id];
+}
+
 bot_ids = Array.from({length: num_bots}, () => uuid());
 bot_ids.forEach(id => add_bot(id));
 
@@ -213,4 +220,8 @@ module.exports.calculate_average_coordinates = function(party_id, cb) {
 
 module.exports.get_active_users = function(party_id, cb) {
   cb(get_active_users(party_id))
+}
+
+module.exports.change_name = function(party_id, user_id, name, cb) {
+  cb(change_name(party_id, user_id, name))
 }

@@ -14,6 +14,12 @@ module_user.get('/add_user/:party_id/:uaid/:name', function(req, res) {
   })
 });
 
+module_user.get('/change_name/:party_id/:user_id/:name', function(req, res) {
+  user.change_name(req.params.party_id, req.params.user_id, req.params.name, function(user) {
+    res.send(user)
+  })
+});
+
 module_user.get('/add_user_coordinates/:party_id/:user_id/:valence/:arousal', function(req, res) {
   var party_id = req.params.party_id;
   var user_id = req.params.user_id;
