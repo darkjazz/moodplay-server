@@ -7,7 +7,7 @@ const base_uri = 'https://moodplay.github.io/party/';
 const vote_length = 17001;
 const message_interval = 11001;
 const bot_interval = 3001;
-const num_bots = 5;
+const num_bots = 11;
 const global_ns = 'global';
 const global_id = 'moodplay';
 var io;
@@ -50,9 +50,18 @@ var add_party = function(user_id) {
     users: { }
   };
   party['users'][user_id] = parties[global_ns]['users'][user_id];
+  delete parties[global_ns]['users'][user_id];
   parties[id] = party;
   create_namespace(id);
   return party;
+}
+
+var remove_party = function(party_id) {
+  Object.keys(parties[party_id].users).forEach( user_id => {
+    var user = party['users'][user_id];
+    parties[global_id].users[user_id] = user;
+  });
+  delete parties[party_id];
 }
 
 var create_namespace = function(party_id) {
@@ -136,7 +145,7 @@ var add_user_coordinates = function(party_id, user_id, valence, arousal) {
 var calculate_average_coordinates = function(party_id) {
   var avg_coords = { valence: 0, arousal: 0 };
   var active_users = get_active_users(party_id);
-  if (count_human_users() == 0) {
+  if (count_human_users() == 0 && party_id == global_id) {
     var id = get_random_bot_id();
     add_user_coordinates(global_ns, id, (Math.random()-0.5)*2.0, (Math.random()-0.5)*2.0);
     active_users = get_active_users(party_id);
@@ -149,8 +158,14 @@ var calculate_average_coordinates = function(party_id) {
       avg_coords.arousal += user.current_coords.arousal;
     }
   });
-  avg_coords.valence /= active_users.length;
-  avg_coords.arousal /= active_users.length;
+  if (active_users.length > 0) {
+    avg_coords.valence /= active_users.length;
+    avg_coords.arousal /= active_users.length;
+  }
+  else {
+    avg_coords.valence = 0;
+    avg_coords.arousal = 0;
+  }
   avg_coords.dominance = 0;
   return { coords: avg_coords, party: parties[party_id] };
 }
